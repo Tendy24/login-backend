@@ -217,6 +217,17 @@ Success:
 - Login rate limiter is in-memory; for multi-instance production setups, move to a shared store (Redis).
 - Move secrets to a secure secret manager in production.
 
+## Release Checklist
+
+Before merging to `main` for a release:
+
+- Ensure CI checks are green on the PR.
+- Run production dependency audit:
+   - `npm audit --omit=dev --audit-level=low`
+- Confirm at least one approving review is present.
+- Confirm branch is up to date with `main`.
+- Merge through PR (no direct pushes to `main`).
+
 ## Quick Test Commands
 
 Run these from the project root while `node server.js` is running.
