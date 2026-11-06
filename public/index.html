@@ -74,6 +74,17 @@
         .success {
             color: #2ecc71;
         }
+
+        .link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .link a {
+            color: #8ecdf8;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -93,9 +104,14 @@
             <button type="submit" id="submitBtn">Login</button>
         </form>
         <div id="messageBox" class="message"></div>
+        <div class="link">Need an account? <a href="/register.html">Create one</a></div>
     </div>
 
     <script>
+        function getPreferredHomePage() {
+            return localStorage.getItem('preferredHomePage') || '/dashboard.html';
+        }
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault(); // Stop page refresh
 
@@ -138,7 +154,7 @@
 
                     // 🌟 ADD THIS REDIRECT LINE HERE:
                     setTimeout(() => {
-                        window.location.href = "/dashboard.html";
+                        window.location.href = getPreferredHomePage();
                     }, 1000); // Redirects after 1 second so the user sees the success message
                 } else if (result.message) {
                     messageBox.className = "message error";
