@@ -350,6 +350,16 @@ app.get('/api/me', verifyAuthToken, async (req, res) => {
   }
 });
 
+// Unknown API endpoints return JSON 404.
+app.use('/api', (req, res) => {
+  return res.status(404).json({ success: false, message: 'API route not found.' });
+});
+
+// Unknown non-API routes render a lightweight 404 page.
+app.use((req, res) => {
+  return res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 if (require.main === module) {
   const port = Number(process.env.PORT || 3000);
   app.listen(port, () => {

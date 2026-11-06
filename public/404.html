@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: #121212;
+            color: #e9e9e9;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            max-width: 520px;
+            width: 100%;
+            background: #1f1f1f;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #ff7a7a;
+        }
+
+        p {
+            color: #cfcfcf;
+            line-height: 1.45;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            background: #2d4f84;
+            color: #fff;
+        }
+
+        a.secondary {
+            background: #2a2a2a;
+            border: 1px solid #454545;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card">
+        <h1>404 — Page not found</h1>
+        <p>The route you tried doesn’t exist in this app. Try one of the known pages below.</p>
+        <div class="actions">
+            <a href="/">Go to Login</a>
+            <a class="secondary" href="/register.html">Create Account</a>
+            <a class="secondary" href="/dashboard.html">Dashboard</a>
+        </div>
+    </main>
+</body>
+
+</html>
