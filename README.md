@@ -34,7 +34,7 @@ Simple Node.js + Express authentication backend with MongoDB, JWT access tokens,
 
 ## Prerequisites
 
-- Node.js 18+ recommended
+- Node.js 20.19.0+ (aligned with CI/runtime baseline)
 - MongoDB running (local or Docker)
 
 ## Environment Variables
