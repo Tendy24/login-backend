@@ -1,5 +1,7 @@
 # login-backend
 
+> CI is configured via GitHub Actions in `.github/workflows/ci.yml`.
+
 Simple Node.js + Express authentication backend with MongoDB, JWT access tokens, refresh token rotation, rate-limited login, and a static frontend.
 
 ## Features
