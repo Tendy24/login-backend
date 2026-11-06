@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .login-card {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 300px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .success {
+            color: #2ecc71;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+        <h2>Sign In</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="user@example.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" id="submitBtn">Login</button>
+        </form>
+        <div id="messageBox" class="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop page refresh
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageBox = document.getElementById('messageBox');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // UI Updates during request processing
+            submitBtn.innerText = "Authenticating...";
+            submitBtn.disabled = true;
+            messageBox.style.display = "none";
+
+            try {
+                // Send the HTTP POST request to your active route
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password }) // Matches your server.js parameters
+                });
+
+                const result = await response.json();
+
+                messageBox.style.display = "block";
+
+                // Handle custom mock error schema vs standard success schema
+                if (result.success) {
+                    messageBox.className = "message success";
+                    messageBox.innerText = result.message;
+
+                    // Save JWT from backend for protected routes
+                    if (result.token) {
+                        localStorage.setItem('authToken', result.token);
+                    }
+                    if (result.refreshToken) {
+                        localStorage.setItem('refreshToken', result.refreshToken);
+                    }
+
+                    // 🌟 ADD THIS REDIRECT LINE HERE:
+                    setTimeout(() => {
+                        window.location.href = "/dashboard.html";
+                    }, 1000); // Redirects after 1 second so the user sees the success message
+                } else if (result.message) {
+                    messageBox.className = "message error";
+                    messageBox.innerText = result.message;
+                } else if (result.data && result.data.caa_login_web) {
+                    messageBox.className = "message error";
+                    messageBox.innerText = result.data.caa_login_web.error_message.text;
+                } else if (result.login_web && result.login_web.error_message) {
+                    messageBox.className = "message error";
+                    messageBox.innerText = result.login_web.error_message.text;
+                } else {
+                    messageBox.className = "message error";
+                    messageBox.innerText = "An unknown error occurred.";
+                }
+
+            } catch (error) {
+                messageBox.style.display = "block";
+                messageBox.className = "message error";
+                messageBox.innerText = "Cannot connect to backend server.";
+            } finally {
+                submitBtn.innerText = "Login";
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
