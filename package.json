@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --testPathIgnorePatterns=tests/e2e",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "mongoose": "^8.24.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "jest": "^30.5.2",
     "supertest": "^7.1.4"
   },

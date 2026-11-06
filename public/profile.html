@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/app-shell.css">
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="brand">SecureAuth</span>
+            <a class="nav-link" data-nav="dashboard" href="/dashboard.html">Dashboard</a>
+            <a class="nav-link" data-nav="profile" href="/profile.html">Profile</a>
+            <a class="nav-link" data-nav="settings" href="/settings.html">Settings</a>
+            <a class="nav-link" data-nav="help" href="/help.html">Help</a>
+        </div>
+        <div class="nav-right">
+            <span class="nav-user" id="navUserEmail">loading...</span>
+            <button class="logout-btn" data-action="logout">Log Out</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <h1>Your Profile</h1>
+        <p class="subtle">This page verifies your authenticated session and shows account details from `/api/me`.</p>
+
+        <div class="card">
+            <h2>Account</h2>
+            <p id="profileEmail">Email: loading...</p>
+            <p id="profileId">User ID: loading...</p>
+        </div>
+
+        <div class="card">
+            <h2>Session Status</h2>
+            <p id="dashboardMessage">Verifying your secure session...</p>
+        </div>
+    </main>
+
+    <div id="debugToast" class="debug-toast">Session refreshed (dev)</div>
+
+    <script src="/protected-shell.js"></script>
+    <script>
+        bootstrapProtectedPage({ pageKey: 'profile' });
+    </script>
+</body>
+
+</html>
