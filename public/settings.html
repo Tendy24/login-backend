@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="/app-shell.css">
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="brand">SecureAuth</span>
+            <a class="nav-link" data-nav="dashboard" href="/dashboard.html">Dashboard</a>
+            <a class="nav-link" data-nav="profile" href="/profile.html">Profile</a>
+            <a class="nav-link" data-nav="settings" href="/settings.html">Settings</a>
+            <a class="nav-link" data-nav="help" href="/help.html">Help</a>
+        </div>
+        <div class="nav-right">
+            <span class="nav-user" id="navUserEmail">loading...</span>
+            <button class="logout-btn" data-action="logout">Log Out</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <h1>Settings</h1>
+        <p class="subtle">Client-side preferences only. Your account auth remains server-verified.</p>
+
+        <div class="card">
+            <h2>Display Preference</h2>
+            <div class="input-row">
+                <label for="dashboardHome">Default start page</label>
+                <select id="dashboardHome">
+                    <option value="/dashboard.html">Dashboard</option>
+                    <option value="/profile.html">Profile</option>
+                    <option value="/settings.html">Settings</option>
+                    <option value="/help.html">Help</option>
+                </select>
+            </div>
+            <button class="action-btn" id="savePrefsBtn">Save preference</button>
+            <p id="prefsMessage" class="subtle"></p>
+        </div>
+
+        <div class="card">
+            <h2>Session Status</h2>
+            <p id="dashboardMessage">Verifying your secure session...</p>
+        </div>
+    </main>
+
+    <div id="debugToast" class="debug-toast">Session refreshed (dev)</div>
+
+    <script src="/protected-shell.js"></script>
+    <script>
+        function loadPreference() {
+            const preferredPage = localStorage.getItem('preferredHomePage') || '/dashboard.html';
+            const select = document.getElementById('dashboardHome');
+            if (select) {
+                select.value = preferredPage;
+            }
+        }
+
+        function wirePreferenceSave() {
+            const btn = document.getElementById('savePrefsBtn');
+            const message = document.getElementById('prefsMessage');
+            const select = document.getElementById('dashboardHome');
+
+            if (!btn || !message || !select) {
+                return;
+            }
+
+            btn.addEventListener('click', () => {
+                localStorage.setItem('preferredHomePage', select.value);
+                message.innerText = 'Preference saved. Next login will use this start page.';
+            });
+        }
+
+        bootstrapProtectedPage({
+            pageKey: 'settings',
+            onReady: () => {
+                loadPreference();
+                wirePreferenceSave();
+            }
+        });
+    </script>
+</body>
+
+</html>
