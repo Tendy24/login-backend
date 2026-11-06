@@ -98,6 +98,27 @@ What is covered:
 - logout invalidation of refresh token
 - login rate-limiter behavior
 
+## Frontend E2E Tests (Playwright)
+
+This project now includes browser-level E2E coverage for auth + protected navigation flow in:
+
+- `tests/e2e/auth-navigation.spec.js`
+
+What it covers:
+
+- register a new account
+- login and redirect to protected area
+- navigation across `Dashboard`, `Profile`, `Settings`, and `Help`
+- logout redirect back to login
+
+Run E2E tests:
+
+- `npm run test:e2e`
+
+If running for the first time in a new machine/container, install browsers once:
+
+- `npx playwright install`
+
 ## Dev Seed Behavior
 
 When `NODE_ENV != production` and `ENABLE_SEED_USER=true`, the server seeds one user if the `users` collection is empty:
@@ -216,6 +237,21 @@ Success:
 - Refresh tokens are never stored raw in MongoDB (only SHA-256 hash).
 - Login rate limiter is in-memory; for multi-instance production setups, move to a shared store (Redis).
 - Move secrets to a secure secret manager in production.
+
+## Routing & 404 UX
+
+- Unknown API routes return JSON: `404 { success: false, message: 'API route not found.' }`
+- Unknown non-API routes return `public/404.html` with quick navigation links.
+
+## Security Roadmap (next hardening step)
+
+Current implementation stores refresh token client-side for demo velocity. For stronger production security, migrate to an **httpOnly refresh-token cookie** strategy:
+
+1. Set refresh token in `Set-Cookie` (`HttpOnly`, `Secure`, `SameSite=Lax/Strict`).
+2. Remove `refreshToken` from frontend-readable storage.
+3. Update `/api/refresh-token` to read cookie token server-side.
+4. Add CSRF defenses where applicable (same-site policy + CSRF token for sensitive cross-site scenarios).
+5. Keep short-lived access token in memory/client with rotation on refresh.
 
 ## Release Checklist
 
