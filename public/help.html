@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help</title>
+    <link rel="stylesheet" href="/app-shell.css">
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-left">
+            <span class="brand">SecureAuth</span>
+            <a class="nav-link" data-nav="dashboard" href="/dashboard.html">Dashboard</a>
+            <a class="nav-link" data-nav="profile" href="/profile.html">Profile</a>
+            <a class="nav-link" data-nav="settings" href="/settings.html">Settings</a>
+            <a class="nav-link" data-nav="help" href="/help.html">Help</a>
+        </div>
+        <div class="nav-right">
+            <span class="nav-user" id="navUserEmail">loading...</span>
+            <button class="logout-btn" data-action="logout">Log Out</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <h1>Help Center</h1>
+        <p class="subtle">Quick reference for common account actions.</p>
+
+        <div class="card">
+            <h2>Common tasks</h2>
+            <ul>
+                <li><strong>View account:</strong> Open <a class="nav-link"
+                        style="display:inline;padding:0;background:none;" href="/profile.html">Profile</a>.</li>
+                <li><strong>Choose start page:</strong> Open <a class="nav-link"
+                        style="display:inline;padding:0;background:none;" href="/settings.html">Settings</a>.</li>
+                <li><strong>Refresh session:</strong> Happens automatically when token expires.</li>
+                <li><strong>Log out:</strong> Use the red button in the top-right corner.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Session Status</h2>
+            <p id="dashboardMessage">Verifying your secure session...</p>
+        </div>
+    </main>
+
+    <div id="debugToast" class="debug-toast">Session refreshed (dev)</div>
+
+    <script src="/protected-shell.js"></script>
+    <script>
+        bootstrapProtectedPage({ pageKey: 'help' });
+    </script>
+</body>
+
+</html>
