@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: password123
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand({ ping: 1 })' --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      NODE_ENV: test
+      JWT_SECRET: integration_test_secret_key
+      ENABLE_SEED_USER: "false"
+      ACCESS_TOKEN_EXPIRES_IN: 2m
+      REFRESH_TOKEN_TTL_DAYS: "7"
+      LOGIN_RATE_LIMIT_WINDOW_MS: "60000"
+      LOGIN_RATE_LIMIT_MAX_ATTEMPTS: "3"
+      TEST_MONGODB_URI: mongodb://admin:password123@127.0.0.1:27017/auth_db_test?authSource=admin
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run test suite
+        run: npm test -- --no-cache
