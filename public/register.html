@@ -5,76 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an Account</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #f4f6f9;
-            margin: 0;
-        }
-
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 320px;
-        }
-
-        h2 {
-            margin-top: 0;
-            color: #333;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #28a745;
-            border: none;
-            color: white;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #218838;
-        }
-
-        .msg {
-            margin-top: 12px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .link {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .link a {
-            color: #007bff;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="/auth-pages.css">
 </head>
 
-<body>
+<body class="auth-page auth-light">
 
-    <div class="card">
+    <div class="auth-card auth-card-light">
         <h2>Sign Up</h2>
         <form id="registerForm">
             <input type="email" id="email" placeholder="Email Address" required>
@@ -82,7 +18,7 @@
             <button type="submit">Register Account</button>
         </form>
         <div id="messageBox" class="msg"></div>
-        <div class="link">Already have an account? <a href="index.html">Log In</a></div>
+        <div class="link">Already have an account? <a href="/index.html">Log In</a></div>
     </div>
 
     <script src="/auth-pages.js"></script>
